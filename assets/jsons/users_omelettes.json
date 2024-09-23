@@ -1,0 +1,106 @@
+[
+    {
+      "name": "Juan Carlos",
+      "lastname": "Calzadilla",
+      "omelettePaid": 5,
+      "grupo": 1
+    },
+    {
+      "name": "Carlos",
+      "lastname": "Salso",
+      "omelettePaid": 0,
+      "grupo": 1
+    },
+    {
+      "name": "Roberto",
+      "lastname": "Plata",
+      "omelettePaid": 3,
+      "grupo": 1
+    },
+    {
+      "name": "Dani",
+      "lastname": "Todea",
+      "omelettePaid": 2,
+      "grupo": 1
+    },
+    {
+      "name": "Jose Luis",
+      "lastname": "Yangues",
+      "omelettePaid": 1,
+      "grupo": 0
+    },
+    {
+      "name": "Jesus",
+      "lastname": "Aguilera",
+      "omelettePaid": 4,
+      "grupo": 0
+    },
+    {
+      "name": "Juan Antonio",
+      "lastname": "Caballero",
+      "omelettePaid": 6,
+      "grupo": 1
+    },
+    {
+      "name": "Fernando",
+      "lastname": "Perez",
+      "omelettePaid": 0,
+      "grupo": 1
+    },
+    {
+      "name": "Dani",
+      "lastname": "Rodriguez",
+      "omelettePaid": 7,
+      "grupo": 1
+    },
+    {
+      "name": "Eunice",
+      "lastname": "Santiago",
+      "omelettePaid": 1,
+      "grupo": 2
+    },
+    {
+      "name": "Roberto",
+      "lastname": "Diaz",
+      "omelettePaid": 2,
+      "grupo": 2
+    },
+    {
+      "name": "Javier",
+      "lastname": "Zapata",
+      "omelettePaid": 3,
+      "grupo": 2
+    },
+    {
+      "name": "Sergio",
+      "lastname": "Santamaria",
+      "omelettePaid": 8,
+      "grupo": 2
+    },
+    {
+      "name": "Mireya",
+      "lastname": "Chaparro",
+      "omelettePaid": 8,
+      "grupo": 2
+    },
+    {
+      "name": "Luis",
+      "lastname": "Alejandro",
+      "omelettePaid": 4,
+      "grupo": 2
+    },
+    {
+      "name": "Rafa",
+      "lastname": "Tovar",
+      "omelettePaid": 8,
+      "grupo": 0
+    },
+    {
+      "name": "Omarly",
+      "lastname": "Gilset",
+      "omelettePaid": 4,
+      "grupo": 0
+    }
+  ]
+   
+  
