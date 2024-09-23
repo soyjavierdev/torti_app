@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:torti_app/presentation/widgets/home_groups.dart';
-import 'package:torti_app/presentation/widgets/home_stat_widget.dart';
 import 'package:torti_app/presentation/widgets/sidebar_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return '${lastUser['name']} ${lastUser['lastname']} ${lastUser['omelettePaid']}';
   }
 
-    //Función para incrementar omelette pagadas
+  //Función para incrementar omelette pagadas
   void incrementOmelettePaid(int group, int index, double amount) {
     setState(() {
       users.where((user) => user['grupo'] == group).toList()[index]
@@ -77,32 +76,39 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
       ),
-      body: Row(
-        children: [
-          //^ Lista del Grupo 0
-          HomeGroups(
-              users: group0,
-              colors: const Color(0xFFE9FFF3),
-              titleText: 'Más tortillas pagadas',
-              subheading: getUserWithMoreOmelettes(users),
-              incrementOmelettePaid: incrementOmelettePaid),
-          //^ GRUPO 1
-          HomeGroups(
-              users: group1,
-              colors:  const Color(0xFFFFE9E9),
-              titleText: 'Te toca ir pagando',
-              subheading: getUserWithLessOmelettes(users),
-              incrementOmelettePaid: incrementOmelettePaid),
-          //^ GRUPO 2
-          HomeGroups(
-              users: group2,
-              colors:  const Color(0xFFFFFCE9),
-              titleText: 'Ruleta',
-              subheading: 'Prueba suerte',
-              incrementOmelettePaid: incrementOmelettePaid),
-
-          const SideBar(),
-        ],
+      body: Padding(
+        
+        padding: const EdgeInsets.only(top: 16),
+        child: Row(
+          children: [
+            //^ Lista del Grupo 0
+            HomeGroups(
+                users: group0,
+                colors: const Color(0xFFE9FFF3),
+                image: 'assets/images/trophy.png',
+                titleText: 'Más tortillas pagadas',
+                subheading: getUserWithMoreOmelettes(users),
+                incrementOmelettePaid: incrementOmelettePaid),
+            //^ GRUPO 1
+            HomeGroups(
+                users: group1,
+                colors: const Color(0xFFFFE9E9),
+                image: 'assets/images/sad-man.png',
+                titleText: 'Te toca ir pagando',
+                subheading: getUserWithLessOmelettes(users),
+                incrementOmelettePaid: incrementOmelettePaid),
+            //^ GRUPO 2
+            HomeGroups(
+                users: group2,
+                colors: const Color(0xFFFFFCE9),
+                image: 'assets/images/roulette.png',
+                titleText: 'Ruleta',
+                subheading: 'Prueba suerte',
+                incrementOmelettePaid: incrementOmelettePaid),
+        
+            const SideBar(),
+          ],
+        ),
       ),
     );
   }

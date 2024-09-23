@@ -8,10 +8,12 @@ class HomeGroups extends StatelessWidget {
       required this.colors,
       required this.titleText,
       required this.subheading,
-      required this.incrementOmelettePaid});
+      required this.incrementOmelettePaid,
+      required this.image});
 
   final List<dynamic> users;
   final Color colors;
+  final String image;
   final String titleText;
   final String subheading;
   final Function incrementOmelettePaid;
@@ -22,21 +24,25 @@ class HomeGroups extends StatelessWidget {
       constraints:
           BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 4),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             HomeStat(
               color: colors,
+              image: image,
               titleText: titleText,
               subheading: subheading,
             ),
-            const Text(
-              'Grupo 0',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            const SizedBox(height: 18),
+
+
+            
+            Text(
+              'Grupo ${users.first['grupo']}',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-         
             Expanded(
               child: ListView.builder(
                 itemCount: users.length,

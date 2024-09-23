@@ -9,15 +9,16 @@ class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      color: Colors.grey[300], // Color de fondo del sidebar
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4F4F4),
+        borderRadius: BorderRadius.circular(30.0),
+      ),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Alinear al inicio
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Sección para el nombre del bar, número y dirección
             Container(
-              margin: const EdgeInsets.only(
-                  bottom: 16.0), // Espacio entre las secciones
+              margin: const EdgeInsets.only(bottom: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -71,8 +72,7 @@ class SideBar extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Container(
-              margin: const EdgeInsets.only(
-                  bottom: 16.0), // Espacio entre las secciones
+              margin: const EdgeInsets.only(bottom: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
