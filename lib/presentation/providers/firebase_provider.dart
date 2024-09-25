@@ -1,20 +1,25 @@
-
-// Provider que maneja la lógica de los usuarios de fireBase
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:torti_app/domain/entities/omelettes_user.dart';
 import 'package:torti_app/infrastructure/datasource/main_datasource.dart';
 
-final userOmeletteProvider = FutureProvider<List<OmelettesUser>>((ref) async {
+class UserNotifier extends StateNotifier<List<OmelettesUser>> {
+  final LibraryDatasourceImpl libraryDatasource;
+
+  UserNotifier(this.libraryDatasource) : super([]);
+
+  Future<void> fetchUsers() async {
+    final users = await libraryDatasource.getAllUsers();
+    state = users;
+  }
+
+  Future<void> incrementOmelettePaid(String userId, double omelettePaid) async {
+    await libraryDatasource.incrementOmelettePaid(userId, omelettePaid);
+    await fetchUsers(); // Volver a cargar la lista de usuarios después de la actualización
+  }
+}
+
+// Provider para el UserNotifier
+final userNotifierProvider = StateNotifierProvider<UserNotifier, List<OmelettesUser>>((ref) {
   final libraryDatasource = LibraryDatasourceImpl();
-  return await libraryDatasource.getAllUsers();
+  return UserNotifier(libraryDatasource);
 });
-
-
-// Provider para incrementar omelettePaid
-final incrementOmeletteProvider = FutureProvider.family<void, Map<String, dynamic>>((ref, userData) async {
-  final libraryDatasource = LibraryDatasourceImpl();
-  final userId = userData['id'];
-  final omelettePaid = userData['omelettePaid'];
-  await libraryDatasource.incrementOmelettePaid(userId, omelettePaid);
-});
-

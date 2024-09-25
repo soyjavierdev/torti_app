@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:torti_app/domain/entities/omelettes_user.dart';
@@ -14,37 +13,31 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  List<dynamic> users = []; // Lista para almacenar los usuarios
-
   @override
   void initState() {
     super.initState();
+    // Cargar usuarios al iniciar
+    ref.read(userNotifierProvider.notifier).fetchUsers();
   }
 
   String getUserWithMoreOmelettes(List<OmelettesUser> users) {
     if (users.isEmpty) return 'No hay usuarios';
-
-    // Asegúrate de que ambos parámetros son de tipo OmelettesUser
-    final topUser = users.reduce((OmelettesUser a, OmelettesUser b) =>
-        a.omelettePaid > b.omelettePaid ? a : b);
-
+    final topUser =
+        users.reduce((a, b) => a.omelettePaid > b.omelettePaid ? a : b);
     return '${topUser.name} ${topUser.lastname} ${topUser.omelettePaid}';
   }
 
   String getUserWithLessOmelettes(List<OmelettesUser> users) {
     if (users.isEmpty) return 'No hay usuarios';
-
-    // Asegúrate de que ambos parámetros son de tipo OmelettesUser
-    final lastUser = users.reduce((OmelettesUser a, OmelettesUser b) =>
-        a.omelettePaid < b.omelettePaid ? a : b);
-
+    final lastUser =
+        users.reduce((a, b) => a.omelettePaid < b.omelettePaid ? a : b);
     return '${lastUser.name} ${lastUser.lastname} ${lastUser.omelettePaid}';
   }
 
-
   @override
-   Widget build(BuildContext context) {
-    final userOmeletteAsyncValue = ref.watch(userOmeletteProvider);
+  Widget build(BuildContext context) {
+    final users = ref.watch(
+        userNotifierProvider); // Escuchar cambios en la lista de usuarios
 
     return Scaffold(
       appBar: AppBar(
@@ -55,63 +48,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         centerTitle: true,
       ),
-      body: userOmeletteAsyncValue.when(
-        data: (List<OmelettesUser> users) {
-          final List<OmelettesUser> group0 = users.where((user) => user.group == 0).toList();
-          final List<OmelettesUser> group1 = users.where((user) => user.group == 1).toList();
-          final List<OmelettesUser> group2 = users.where((user) => user.group == 2).toList();
-
-          return Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Row(
-              children: [
-                HomeGroups(
-                  users: group0,
-                  colors: const Color(0xFFE9FFF3),
-                  image: 'assets/images/trophy.png',
-                  titleText: 'Más tortillas pagadas',
-                  subheading: getUserWithMoreOmelettes(users),
-                  incrementOmelettePaid: (userId, omelettePaid) {
-                    ref.read(incrementOmeletteProvider({
-                      'id': userId,
-                      'omelettePaid': omelettePaid,
-                    }));
-                  },
-                ),
-                HomeGroups(
-                  users: group1,
-                  colors: const Color(0xFFFFE9E9),
-                  image: 'assets/images/rat.png',
-                  titleText: 'Te toca ir pagando',
-                  subheading: getUserWithLessOmelettes(users),
-                  incrementOmelettePaid: (userId, omelettePaid) {
-                    ref.read(incrementOmeletteProvider({
-                      'id': userId,
-                      'omelettePaid': omelettePaid,
-                    }));
-                  },
-                ),
-                HomeGroups(
-                  users: group2,
-                  colors: const Color(0xFFFFFCE9),
-                  image: 'assets/images/roulette.png',
-                  titleText: 'Ruleta',
-                  subheading: 'Prueba suerte',
-                  incrementOmelettePaid: (userId, omelettePaid) {
-                    ref.read(incrementOmeletteProvider({
-                      'id': userId,
-                      'omelettePaid': omelettePaid,
-                    }));
-                  },
-                ),
-                const SideBar(),
-              ],
-            ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
-      ),
+      body: users.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Row(
+                children: [
+                  HomeGroups(
+                    users: users.where((user) => user.group == 0).toList(),
+                    colors: const Color(0xFFE9FFF3),
+                    image: 'assets/images/trophy.png',
+                    titleText: 'Más tortillas pagadas',
+                    subheading: getUserWithMoreOmelettes(users),
+                    incrementOmelettePaid: (userId, omelettePaid) {
+                      ref
+                          .read(userNotifierProvider.notifier)
+                          .incrementOmelettePaid(userId, omelettePaid);
+                    },
+                  ),
+                  HomeGroups(
+                    users: users.where((user) => user.group == 1).toList(),
+                    colors: const Color(0xFFFFE9E9),
+                    image: 'assets/images/rat.png',
+                    titleText: 'Te toca ir pagando',
+                    subheading: getUserWithLessOmelettes(users),
+                    incrementOmelettePaid: (userId, omelettePaid) {
+                      ref
+                          .read(userNotifierProvider.notifier)
+                          .incrementOmelettePaid(userId, omelettePaid);
+                    },
+                  ),
+                  HomeGroups(
+                    users: users.where((user) => user.group == 2).toList(),
+                    colors: const Color(0xFFFFFCE9),
+                    image: 'assets/images/roulette.png',
+                    titleText: 'La ruleta de la suerte',
+                    subheading: '¿Te atreves?',
+                    incrementOmelettePaid: (userId, omelettePaid) {
+                      ref
+                          .read(userNotifierProvider.notifier)
+                          .incrementOmelettePaid(userId, omelettePaid);
+                    },
+                  ),
+                  const SideBar(),
+                ],
+              ),
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }

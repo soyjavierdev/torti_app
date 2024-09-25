@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:torti_app/domain/entities/omelettes_user.dart';
 import 'package:torti_app/presentation/widgets/home_stat_widget.dart';
+import 'package:torti_app/presentation/widgets/roulette_dialog_widget.dart';
 
 class HomeGroups extends StatelessWidget {
   const HomeGroups(
@@ -30,11 +31,19 @@ class HomeGroups extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              HomeStat(
-                color: colors,
-                image: image,
-                titleText: titleText,
-                subheading: subheading,
+              GestureDetector(
+                 onTap: () {
+                  if (titleText == 'La ruleta de la suerte') {
+                    // Llama a la función show del nuevo widget
+                    RouletteDialog.show(context);
+                  }
+                },
+                child: HomeStat(
+                  color: colors,
+                  image: image,
+                  titleText: titleText,
+                  subheading: subheading,
+                ),
               ),
               const SizedBox(height: 20),
               Container(
@@ -55,7 +64,6 @@ class HomeGroups extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     ...users.asMap().entries.map((entry) {
-                      int index = entry.key;
                       OmelettesUser user =
                           entry.value; 
                       return Center(
