@@ -7,12 +7,17 @@ environment:
   sdk: ^3.5.1
 
 dependencies:
+  cloud_firestore: ^5.4.2
+  dio: ^5.7.0
+  firebase_core: ^3.5.0
   flutter:
     sdk: flutter
   flutter_map: ^7.0.2
+  flutter_riverpod: ^2.5.1
   google_fonts: ^6.2.1
   google_maps_flutter: ^2.9.0
   latlong2: ^0.9.1
+  path_provider: ^2.1.4
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +29,5 @@ flutter:
   assets:
     - assets/images/
     - assets/jsons/
+
+  

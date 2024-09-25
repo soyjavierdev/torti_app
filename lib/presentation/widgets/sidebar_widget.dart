@@ -15,12 +15,12 @@ class SideBar extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 16.0),
+              margin: const EdgeInsets.only(bottom: 66.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     'Bar de Patri (SINDI)',
@@ -33,11 +33,12 @@ class SideBar extends StatelessWidget {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.15,
+                        maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                         maxHeight: MediaQuery.sizeOf(context).height * 0.15),
                     child: const Text(
                       'Dirección: C. de Hinojosa del Duque, 7, San Blas-Canillejas, 28037 Madrid',
                       style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
@@ -45,7 +46,7 @@ class SideBar extends StatelessWidget {
             ),
             ConstrainedBox(
               constraints: BoxConstraints(
-                  maxWidth: MediaQuery.sizeOf(context).width * 0.15,
+                  maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                   maxHeight: MediaQuery.sizeOf(context).height * 0.15),
               child: FlutterMap(
                   options: const MapOptions(
@@ -74,7 +75,7 @@ class SideBar extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     'Restaurante Juvima',
@@ -87,11 +88,13 @@ class SideBar extends StatelessWidget {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.15,
+                        maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                         maxHeight: MediaQuery.sizeOf(context).height * 0.15),
                     child: const Text(
                       'C. Herencia, 6, San Blas-Canillejas, 28037 Madrid',
                       style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+
                     ),
                   ),
                 ],
@@ -99,7 +102,7 @@ class SideBar extends StatelessWidget {
             ),
             ConstrainedBox(
               constraints: BoxConstraints(
-                  maxWidth: MediaQuery.sizeOf(context).width * 0.15,
+                  maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                   maxHeight: MediaQuery.sizeOf(context).height * 0.15),
               child: FlutterMap(
                   options: const MapOptions(
@@ -130,7 +133,7 @@ class SideBar extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     'Restaurante Campiño',
@@ -143,11 +146,13 @@ class SideBar extends StatelessWidget {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.sizeOf(context).width * 0.15,
+                        maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                         maxHeight: MediaQuery.sizeOf(context).height * 0.15),
                     child: const Text(
                       'C. de María Sevilla Diago, 5, San Blas-Canillejas, 28022 Madrid',
                       style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+
                     ),
                   ),
                 ],
@@ -155,7 +160,7 @@ class SideBar extends StatelessWidget {
             ),
             ConstrainedBox(
               constraints: BoxConstraints(
-                  maxWidth: MediaQuery.sizeOf(context).width * 0.15,
+                  maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                   maxHeight: MediaQuery.sizeOf(context).height * 0.15),
               child: FlutterMap(
                   options: const MapOptions(
