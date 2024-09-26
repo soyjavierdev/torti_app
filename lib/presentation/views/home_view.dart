@@ -18,6 +18,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     // Cargar usuarios al iniciar
     ref.read(userNotifierProvider.notifier).fetchUsers();
+    ref.read(userNotifierProvider.notifier).loadUsersPhoto();
   }
 
   String getUserWithMoreOmelettes(List<OmelettesUser> users) {
@@ -37,62 +38,72 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final users = ref.watch(
-        userNotifierProvider); // Escuchar cambios en la lista de usuarios
+        userNotifierProvider).users; // Escuchar cambios en la lista de usuarios
 
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
           'assets/images/logo-torti-app.png',
           fit: BoxFit.contain,
-          height: 50,
+       
+          height: 60,
         ),
         centerTitle: true,
       ),
       body: users.isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Row(
-                children: [
-                  HomeGroups(
-                    users: users.where((user) => user.group == 0).toList(),
-                    colors: const Color(0xFFE9FFF3),
-                    image: 'assets/images/trophy.png',
-                    titleText: 'Más tortillas pagadas',
-                    subheading: getUserWithMoreOmelettes(users),
-                    incrementOmelettePaid: (userId, omelettePaid) {
-                      ref
-                          .read(userNotifierProvider.notifier)
-                          .incrementOmelettePaid(userId, omelettePaid);
-                    },
+          ? SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Row(
+                      children: [
+                        HomeGroups(
+                          users: users.where((user) => user.group == 0).toList(),
+                          colors: const Color(0xFFE9FFF3),
+                          image: 'assets/images/trophy.png',
+                          titleText: 'Más tortillas pagadas',
+                          subheading: getUserWithMoreOmelettes(users),
+                          incrementOmelettePaid: (userId, omelettePaid) {
+                            ref
+                                .read(userNotifierProvider.notifier)
+                                .incrementOmelettePaid(userId, omelettePaid);
+                          },
+                        ),
+                        HomeGroups(
+                          users: users.where((user) => user.group == 1).toList(),
+                          colors: const Color(0xFFFFE9E9),
+                          image: 'assets/images/rat.png',
+                          titleText: 'Te toca ir pagando',
+                          subheading: getUserWithLessOmelettes(users),
+                          incrementOmelettePaid: (userId, omelettePaid) {
+                            ref
+                                .read(userNotifierProvider.notifier)
+                                .incrementOmelettePaid(userId, omelettePaid);
+                          },
+                        ),
+                        HomeGroups(
+                          users: users.where((user) => user.group == 2).toList(),
+                          colors: const Color(0xFFFFFCE9),
+                          image: 'assets/images/roulette.png',
+                          titleText: 'La ruleta de la suerte',
+                          subheading: '¿Te atreves?',
+                          incrementOmelettePaid: (userId, omelettePaid) {
+                            ref
+                                .read(userNotifierProvider.notifier)
+                                .incrementOmelettePaid(userId, omelettePaid);
+                          },
+                        ),
+                        const SideBar(),
+                      ],
+                    ),
                   ),
-                  HomeGroups(
-                    users: users.where((user) => user.group == 1).toList(),
-                    colors: const Color(0xFFFFE9E9),
-                    image: 'assets/images/rat.png',
-                    titleText: 'Te toca ir pagando',
-                    subheading: getUserWithLessOmelettes(users),
-                    incrementOmelettePaid: (userId, omelettePaid) {
-                      ref
-                          .read(userNotifierProvider.notifier)
-                          .incrementOmelettePaid(userId, omelettePaid);
-                    },
-                  ),
-                  HomeGroups(
-                    users: users.where((user) => user.group == 2).toList(),
-                    colors: const Color(0xFFFFFCE9),
-                    image: 'assets/images/roulette.png',
-                    titleText: 'La ruleta de la suerte',
-                    subheading: '¿Te atreves?',
-                    incrementOmelettePaid: (userId, omelettePaid) {
-                      ref
-                          .read(userNotifierProvider.notifier)
-                          .incrementOmelettePaid(userId, omelettePaid);
-                    },
-                  ),
-                  const SideBar(),
-                ],
-              ),
-            )
+            const SizedBox(height: 30),
+
+              ],
+              
+            ),
+          )
           : const Center(child: CircularProgressIndicator()),
     );
   }

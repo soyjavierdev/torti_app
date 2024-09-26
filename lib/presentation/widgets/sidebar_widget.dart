@@ -18,7 +18,7 @@ class SideBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 66.0),
+              margin: const EdgeInsets.only(bottom: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -28,7 +28,7 @@ class SideBar extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Teléfono: 635612118',
+                    'Teléfono: 635 612 118',
                     style: TextStyle(fontSize: 16),
                   ),
                   ConstrainedBox(
@@ -36,7 +36,7 @@ class SideBar extends StatelessWidget {
                         maxWidth: MediaQuery.sizeOf(context).width * 0.22,
                         maxHeight: MediaQuery.sizeOf(context).height * 0.15),
                     child: const Text(
-                      'Dirección: C. de Hinojosa del Duque, 7, San Blas-Canillejas, 28037 Madrid',
+                      'C. de Hinojosa del Duque, 7, San Blas-Canillejas, 28037 Madrid',
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
@@ -83,7 +83,7 @@ class SideBar extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Teléfono: 634974521',
+                    'Teléfono: 634 974 521',
                     style: TextStyle(fontSize: 16),
                   ),
                   ConstrainedBox(
@@ -141,7 +141,7 @@ class SideBar extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Teléfono: 913241213',
+                    'Teléfono: 913 241 213',
                     style: TextStyle(fontSize: 16),
                   ),
                   ConstrainedBox(

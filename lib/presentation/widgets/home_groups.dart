@@ -24,34 +24,34 @@ class HomeGroups extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints:
-          BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 4),
+          BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 4 ),
+          
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GestureDetector(
-                 onTap: () {
-                  if (titleText == 'La ruleta de la suerte') {
-                    // Llama a la función show del nuevo widget
-                    RouletteDialog.show(context);
-                  }
-                },
-                child: HomeStat(
-                  color: colors,
-                  image: image,
-                  titleText: titleText,
-                  subheading: subheading,
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GestureDetector(
+               onTap: () {
+                if (titleText == 'La ruleta de la suerte') {
+                  RouletteDialog.show(context);
+                }
+              },
+              child: HomeStat(
+                color: colors,
+                image: image,
+                titleText: titleText,
+                subheading: subheading,
               ),
-              const SizedBox(height: 20),
-              Container(
-                height: 600,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF4F4F4),
-                  borderRadius: BorderRadius.circular(30),
-                ),
+            ),
+            const SizedBox(height: 20),
+            Container(
+              height: 600,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF4F4F4),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     Padding(
@@ -62,45 +62,42 @@ class HomeGroups extends StatelessWidget {
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                     ),
+
                     const SizedBox(height: 8),
                     ...users.asMap().entries.map((entry) {
-                      OmelettesUser user =
-                          entry.value; 
+                      OmelettesUser user = entry.value; 
                       return Center(
                         child: ListTile(
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
+                            children: [                           
                               IconButton(
-                                icon: const Icon(Icons.add),
+                                icon: const Icon(Icons.remove_circle),
                                 onPressed: () {
-                                 incrementOmelettePaid(user.id, 1); 
-                                 
+                                 incrementOmelettePaid(user.id, -0.5); 
                                 },
-                                tooltip: 'Agregar 1 Tortilla',
+                                tooltip: 'Restar media tortilla',
                               ),
-                              IconButton(
+                               IconButton(
                                 icon: const Icon(Icons.add_circle),
                                 onPressed: () {
-                                 incrementOmelettePaid(user.id, 0.5); 
+                                 incrementOmelettePaid(user.id, 0.5);                                
                                 },
-                                tooltip: 'Agregar 0.5 Tortilla',
+                                tooltip: 'Agregar media tortilla',
                               ),
                             ],
                           ),
-                          title: Center(
-                              child: Text('${user.name} ${user.lastname}')),
-                          subtitle: Center(
-                              child: Text(
-                                  'Tortillas Pagadas: ${user.omelettePaid}')),
+                          title: Text('${user.name} ${user.lastname}'),
+                          subtitle: Text(
+                              'Tortillas Pagadas: ${user.omelettePaid}'),
                         ),
                       );
                     })
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -24,25 +24,29 @@ class HomeStat extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        Padding(
-    padding: const EdgeInsets.only(bottom: 4.0), 
-    child: Text(
-      titleText,
-      style: GoogleFonts.montserrat(fontSize: 20),
-    ),
-  ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4.0),
+            child: Text(
+              titleText,
+              style: GoogleFonts.montserrat(fontSize: 20),
+            ),
+          ),
           Row(
             children: [
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 50, maxHeight: 50),
                 child: Image.asset(
-                  image, // Ruta a tu imagen en assets
+                  image, 
                   fit: BoxFit.fill,
                 ),
-                
               ),
-               const SizedBox(width: 14),
-              Text(subheading, style: GoogleFonts.montserrat(fontSize: 20)),
+              const SizedBox(width: 14),
+              ConstrainedBox(
+                constraints:  BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.14),
+                child: Text(
+                  subheading,
+                   style: GoogleFonts.montserrat(fontSize: 16)),
+              ),
             ],
           )
         ],
