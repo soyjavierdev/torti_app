@@ -24,15 +24,14 @@ class HomeGroups extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints:
-          BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 4 ),
-          
+          BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 4),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-               onTap: () {
+              onTap: () {
                 if (titleText == 'La ruleta de la suerte') {
                   RouletteDialog.show(context);
                 }
@@ -62,34 +61,35 @@ class HomeGroups extends StatelessWidget {
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                     ),
-
                     const SizedBox(height: 8),
                     ...users.asMap().entries.map((entry) {
-                      OmelettesUser user = entry.value; 
+                      OmelettesUser user = entry.value;
                       return Center(
                         child: ListTile(
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [                           
+                            children: [
                               IconButton(
                                 icon: const Icon(Icons.remove_circle),
-                                onPressed: () {
-                                 incrementOmelettePaid(user.id, -0.5); 
-                                },
+                                onPressed: user.omelettePaid > 0
+                                    ? () {
+                                        incrementOmelettePaid(user.id, -0.5);
+                                      }
+                                    : null,
                                 tooltip: 'Restar media tortilla',
                               ),
-                               IconButton(
+                              IconButton(
                                 icon: const Icon(Icons.add_circle),
                                 onPressed: () {
-                                 incrementOmelettePaid(user.id, 0.5);                                
+                                  incrementOmelettePaid(user.id, 0.5);
                                 },
                                 tooltip: 'Agregar media tortilla',
                               ),
                             ],
                           ),
                           title: Text('${user.name} ${user.lastname}'),
-                          subtitle: Text(
-                              'Tortillas Pagadas: ${user.omelettePaid}'),
+                          subtitle:
+                              Text('Tortillas Pagadas: ${user.omelettePaid}'),
                         ),
                       );
                     })

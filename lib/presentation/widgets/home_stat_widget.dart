@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeStat extends StatelessWidget {
   const HomeStat(
@@ -27,8 +26,8 @@ class HomeStat extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 4.0),
             child: Text(
-              titleText,
-              style: GoogleFonts.montserrat(fontSize: 20),
+              titleText,           
+              style:  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold ),
             ),
           ),
           Row(
@@ -45,8 +44,9 @@ class HomeStat extends StatelessWidget {
                 constraints:  BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.14),
                 child: Text(
                   subheading,
-                   style: GoogleFonts.montserrat(fontSize: 16)),
+                   style:  const TextStyle(fontSize: 16),
               ),
+              )
             ],
           )
         ],

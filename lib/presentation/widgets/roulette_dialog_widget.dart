@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:torti_app/presentation/widgets/roulette_widget.dart'; // Asegúrate de tener importada la RouletteWidget
+import 'package:torti_app/presentation/widgets/group_tabs.dart';
+import 'package:torti_app/presentation/widgets/roulette_widget.dart';
 
 class RouletteDialog {
   static void show(BuildContext context) {
@@ -13,8 +14,8 @@ class RouletteDialog {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
-              height: 600, 
-              width: 500,
+              height: 650,
+              width: 550,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -23,10 +24,11 @@ class RouletteDialog {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  // Aquí mostramos la ruleta en lugar del texto "Hola"
-                  const RouletteWidget(), // Este widget debe mostrar la ruleta
+                  const GroupTabs(),
                   const SizedBox(height: 20),
-                  ElevatedButton(
+                   RouletteWidget(), // Este widget muestrala ruleta
+                  const SizedBox(height: 20),
+                  OutlinedButton(
                     onPressed: () {
                       Navigator.pop(context); // Cierra el diálogo
                     },

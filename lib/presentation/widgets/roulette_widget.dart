@@ -1,48 +1,23 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:torti_app/domain/entities/omelettes_user.dart';
 import 'package:torti_app/presentation/providers/firebase_provider.dart';
 
-class RouletteWidget extends ConsumerStatefulWidget {
-  const RouletteWidget({super.key});
+class RouletteWidget extends ConsumerWidget {
+  RouletteWidget({super.key});
+
+  final StreamController<int> _selected = StreamController<int>();
 
   @override
-  _RouletteWidgetState createState() => _RouletteWidgetState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final users = ref.watch(userNotifierProvider).usersFiltered.isEmpty
+        ? ref.watch(userNotifierProvider).users
+        : ref.watch(userNotifierProvider).usersFiltered;
 
-class _RouletteWidgetState extends ConsumerState<RouletteWidget> {
-  final StreamController<int> _selected = StreamController<
-      int>.broadcast(); // Se cambia a broadcast para permitir múltiples escuchas
-
-  @override
-  void dispose() {
-    _selected.close(); // Cierra el Stream cuando el widget es destruido
-    super.dispose();
-  }
-
-  int selectedOption = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    Future<List<dynamic>> loadJsonData() async {
-      String jsonString =
-          await rootBundle.loadString('assets/users_photos.json');
-      final jsonData = json.decode(jsonString);
-      return jsonData;
-    }
-
-    final users = ref.watch(userNotifierProvider).users;
-    final usersNoti = ref.watch(userNotifierProvider.notifier);
-
-    final options = users.map((user) => user.name).toList();
 
     List<Color> colors = [
       const Color(0xFF2fddd4),
@@ -53,36 +28,45 @@ class _RouletteWidgetState extends ConsumerState<RouletteWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Ruleta de la fortuna
+  
         SizedBox(
           width: 350,
           height: 350,
           child: FortuneWheel(
-            onAnimationEnd: () {
+            onAnimationEnd: () async {
+              // Para esperar a que se complete la actualización del estado
+              await Future.delayed(const Duration(milliseconds: 300));
+
+              // Volver a leer el usuario seleccionado después de la espera
+              final updatedSelectedOption =
+                  ref.read(userNotifierProvider).selectedUser;
+
               Confetti.launch(context,
                   options: const ConfettiOptions(
                       particleCount: 200, spread: 70, y: 0.6, ticks: 1000));
 
-              if (_selected != null) {
-                // print('HOLA ${users[selectedOption].id}');
+              if (updatedSelectedOption != null) {
                 showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    title: const Center(child:  Text('¡A pagar rata!')),
+                    title: const Center(child: Text('¡A pagar rata!')),
                     content: Column(
-                      mainAxisSize: MainAxisSize.min, 
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Eres el elegido: ${options[selectedOption]}'),
-                        const SizedBox(
-                            height: 20), // Espacio entre el texto y la imagen
-                        Image.network(usersNoti.loadPhotoFromId(users[selectedOption].id)
-                            ), // Reemplaza con tu imagen
+                        Text('Eres el elegido: ${updatedSelectedOption.name}'),
+                        const SizedBox(height: 20),
+                        Image.network(
+                          updatedSelectedOption.photoUrl.isNotEmpty
+                              ? updatedSelectedOption.photoUrl
+                              : 'assets/images/david.jpg',                      
+                        ),
                       ],
                     ),
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context); // Cerrar el cuadro de diálogo
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         child: const Text('Cerrar'),
                       ),
@@ -93,16 +77,19 @@ class _RouletteWidgetState extends ConsumerState<RouletteWidget> {
             },
             selected: _selected.stream,
             animateFirst: false,
+            onAnimationStart: () {
+              ref.read(userNotifierProvider.notifier).updateSelectedUser(null);
+            },
             items: [
-              for (var option in options)
+              for (var option in users)
                 FortuneItem(
                   style: FortuneItemStyle(
-                    color: colors[options.indexOf(option) % colors.length],
+                    color: colors[users.indexOf(option) % colors.length],
                     borderColor: Colors.transparent,
                     borderWidth: 3,
                   ),
                   child: Text(
-                    option,
+                    option.name,
                     style: const TextStyle(fontSize: 20),
                   ),
                 ),
@@ -110,14 +97,17 @@ class _RouletteWidgetState extends ConsumerState<RouletteWidget> {
           ),
         ),
         const SizedBox(height: 50),
-        ElevatedButton(
+        FilledButton(
           onPressed: () {
-            if (options.isNotEmpty) {
-              int selectedIndex = Random().nextInt(options.length);
-              setState(() {
-                selectedOption = selectedIndex;
+            if (users.isNotEmpty) {
+              int selectedIndex = Random().nextInt(users.length);
+              ref
+                  .read(userNotifierProvider.notifier)
+                  .updateSelectedUser(users[selectedIndex])
+                  .then((_) {
+                _selected.add(
+                    selectedIndex); // Agrega el índice seleccionado al Stream
               });
-              _selected.add(selectedIndex);
             }
           },
           child: const Text('Girar la Ruleta'),

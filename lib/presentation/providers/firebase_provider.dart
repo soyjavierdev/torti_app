@@ -32,13 +32,11 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   String loadPhotoFromId(String userId) {
-
     log(userId);
     // Recorre la lista de mapas para encontrar el usuario con el id que coincida
     final usersPhoto = state.usersPhoto;
     for (var element in usersPhoto) {
-      if(element.keys.first == userId){
-
+      if (element.keys.first == userId) {
         log(element.values.first);
         return element.values.first;
       }
@@ -46,6 +44,28 @@ class UserNotifier extends StateNotifier<UserState> {
 
     return '';
   }
+
+  Future<void> updateSelectedUser(OmelettesUser? user) async {
+
+    await Future.delayed(const Duration(microseconds: 500));
+    
+    state = state.copyWith(selectedUser: user);
+  }
+
+
+
+void updateTab(int index) {
+  List<bool> updatedTabs = List.from(state.selectedGroups); // Crear una copia de la lista
+
+  // Cambiar el estado de solo el índice seleccionado
+  updatedTabs[index] = !updatedTabs[index];
+
+  // Filtrar los usuarios basados en los grupos seleccionados
+  final users = state.users.where((e) => updatedTabs[e.group]).toList();
+
+  // Actualizar el estado
+  state = state.copyWith(selectedGroups: updatedTabs, usersFiltered: users);
+}
 }
 
 // Provider para el UserNotifier
@@ -57,17 +77,38 @@ final userNotifierProvider =
 
 class UserState {
   final List<OmelettesUser> users;
+  final List<OmelettesUser> usersFiltered;
   final List<Map<String, dynamic>> usersPhoto;
+  final List<bool> selectedGroups;
+  final OmelettesUser? selectedUser;
 
-  UserState({required this.users, required this.usersPhoto});
+  UserState(
+      {required this.users,
+      required this.usersPhoto,
+      required this.selectedGroups,
+      required this.usersFiltered,
+      this.selectedUser});
 
   factory UserState.initial() {
-    return UserState(users: [], usersPhoto: []);
+    return UserState(
+        users: [],
+        usersPhoto: [],
+        selectedGroups: [false, false, false],
+        usersFiltered: [],
+        selectedUser: null);
   }
 
   UserState copyWith(
-      {List<OmelettesUser>? users, List<Map<String, dynamic>>? usersPhoto}) {
+      {List<OmelettesUser>? users,
+      List<Map<String, dynamic>>? usersPhoto,
+      List<OmelettesUser>? usersFiltered,
+      OmelettesUser? selectedUser,
+      List<bool>? selectedGroups}) {
     return UserState(
-        users: users ?? this.users, usersPhoto: usersPhoto ?? this.usersPhoto);
+        users: users ?? this.users,
+        usersPhoto: usersPhoto ?? this.usersPhoto,
+        selectedGroups: selectedGroups ?? this.selectedGroups,
+        usersFiltered: usersFiltered ?? this.usersFiltered,
+        selectedUser: selectedUser ?? this.selectedUser);
   }
 }
