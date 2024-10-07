@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_confetti/flutter_confetti.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:torti_app/infrastructure/utils/ramdonaizer.dart';
 import 'package:torti_app/presentation/providers/firebase_provider.dart';
 
 class RouletteWidget extends ConsumerWidget {
@@ -18,7 +18,6 @@ class RouletteWidget extends ConsumerWidget {
         ? ref.watch(userNotifierProvider).users
         : ref.watch(userNotifierProvider).usersFiltered;
 
-
     List<Color> colors = [
       const Color(0xFF2fddd4),
       const Color(0xFFffe66a),
@@ -28,7 +27,6 @@ class RouletteWidget extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-  
         SizedBox(
           width: 350,
           height: 350,
@@ -58,7 +56,7 @@ class RouletteWidget extends ConsumerWidget {
                         Image.network(
                           updatedSelectedOption.photoUrl.isNotEmpty
                               ? updatedSelectedOption.photoUrl
-                              : 'assets/images/david.jpg',                      
+                              : 'assets/images/david.jpg',
                         ),
                       ],
                     ),
@@ -100,7 +98,10 @@ class RouletteWidget extends ConsumerWidget {
         FilledButton(
           onPressed: () {
             if (users.isNotEmpty) {
-              int selectedIndex = Random().nextInt(users.length);
+              final randomUser = calculateProbabilities(users)!['id'];
+              int selectedIndex =
+                  users.indexWhere((user) => user.id == randomUser);
+
               ref
                   .read(userNotifierProvider.notifier)
                   .updateSelectedUser(users[selectedIndex])
